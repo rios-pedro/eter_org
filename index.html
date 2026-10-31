@@ -15,6 +15,8 @@
       --accent-hover: #818cf8;
       --callout-bg: rgba(99, 102, 241, 0.1);
       --callout-border: #6366f1;
+      --success: #10b981;
+      --warning: #f59e0b;
     }
 
     * {
@@ -151,6 +153,78 @@
       color: var(--text-primary);
     }
 
+    /* Simulator Styles */
+    .simulator-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 16px;
+    }
+
+    .control-group {
+      margin-bottom: 20px;
+    }
+
+    .control-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .control-value {
+      color: var(--accent-hover);
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--accent);
+      background: var(--bg-color);
+      height: 6px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .results-card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .metric-item {
+      padding: 10px 0;
+      border-bottom: 1px dashed var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .metric-item:last-child {
+      border-bottom: none;
+    }
+
+    .metric-name {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+    }
+
+    .metric-val {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .metric-val.highlight {
+      color: var(--success);
+      font-size: 1.25rem;
+    }
+
     .checklist {
       list-style: none;
       padding-left: 0;
@@ -179,7 +253,10 @@
       border-top: 1px solid var(--border-color);
     }
 
-    @media (max-width: 640px) {
+    @media (max-width: 768px) {
+      .simulator-grid {
+        grid-template-columns: 1fr;
+      }
       body {
         padding: 20px 12px;
       }
@@ -236,6 +313,73 @@
           </li>
           <li><strong>Divisão de Lucros/Remuneração:</strong> Traremos os números para a mesa na reunião para batermos o martelo sobre a porcentagem exata de retenção e as faixas de comissionamento/repartição.</li>
         </ul>
+      </section>
+
+      <!-- SIMULATOR SECTION -->
+      <section>
+        <h2>🧮 Simulador Operacional de Receita e Caixa</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 16px;">
+          Ajuste as variáveis abaixo para simular diferentes cenários de contratos ativos, retenção para o fundo da empresa e repasse para os 4 sócios em tempo real:
+        </p>
+
+        <div class="simulator-grid">
+          <div class="controls-col">
+            <div class="control-group">
+              <div class="control-label">
+                <span>Clientes Ativos</span>
+                <span class="control-value" id="clientsVal">6 clientes</span>
+              </div>
+              <input type="range" id="clientsInput" min="1" max="15" value="6" step="1">
+            </div>
+
+            <div class="control-group">
+              <div class="control-label">
+                <span>Ticket Médio Mensal</span>
+                <span class="control-value" id="ticketVal">R$ 3.500</span>
+              </div>
+              <input type="range" id="ticketInput" min="1500" max="10000" value="3500" step="250">
+            </div>
+
+            <div class="control-group">
+              <div class="control-label">
+                <span>Retenção Fundo Éter (Reinvestimento)</span>
+                <span class="control-value" id="retentionVal">15%</span>
+              </div>
+              <input type="range" id="retentionInput" min="5" max="30" value="15" step="1">
+            </div>
+
+            <div class="control-group">
+              <div class="control-label">
+                <span>Comissão de Prospecção (Comercial)</span>
+                <span class="control-value" id="commVal">10%</span>
+              </div>
+              <input type="range" id="commInput" min="0" max="20" value="10" step="1">
+            </div>
+          </div>
+
+          <div class="results-card">
+            <div class="metric-item">
+              <span class="metric-name">Faturamento Bruto Mensal</span>
+              <span class="metric-val" id="grossRevRes">R$ 21.000,00</span>
+            </div>
+            <div class="metric-item">
+              <span class="metric-name">Fundo Éter (Reinvestimento/Caixa)</span>
+              <span class="metric-val" style="color: var(--warning);" id="reserveRes">R$ 3.150,00</span>
+            </div>
+            <div class="metric-item">
+              <span class="metric-name">Pool de Comissões de Vendas</span>
+              <span class="metric-val" style="color: var(--accent-hover);" id="commRes">R$ 2.100,00</span>
+            </div>
+            <div class="metric-item">
+              <span class="metric-name">Sobra Líquida Distribuível</span>
+              <span class="metric-val" id="distributableRes">R$ 15.750,00</span>
+            </div>
+            <div class="metric-item" style="margin-top: 8px; padding-top: 14px; border-top: 2px solid var(--border-color);">
+              <span class="metric-name" style="font-weight: 700; color: var(--text-primary);">Repasse Base / Sócio (4 sócios)</span>
+              <span class="metric-val highlight" id="perPartnerRes">R$ 3.937,50</span>
+            </div>
+          </div>
+        </div>
       </section>
 
       <!-- SECTION 3 -->
@@ -328,9 +472,59 @@
     </main>
 
     <footer>
-      Éter Creative Experience © 2026 — Documento de Uso Interno
+      Éter Creative Experience &copy; 2026 — Documento de Uso Interno
     </footer>
   </div>
 
+  <script>
+    const clientsInput = document.getElementById('clientsInput');
+    const ticketInput = document.getElementById('ticketInput');
+    const retentionInput = document.getElementById('retentionInput');
+    const commInput = document.getElementById('commInput');
+
+    const clientsVal = document.getElementById('clientsVal');
+    const ticketVal = document.getElementById('ticketVal');
+    const retentionVal = document.getElementById('retentionVal');
+    const commVal = document.getElementById('commVal');
+
+    const grossRevRes = document.getElementById('grossRevRes');
+    const reserveRes = document.getElementById('reserveRes');
+    const commRes = document.getElementById('commRes');
+    const distributableRes = document.getElementById('distributableRes');
+    const perPartnerRes = document.getElementById('perPartnerRes');
+
+    const fmt = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+
+    function updateSimulator() {
+      const clients = parseInt(clientsInput.value, 10);
+      const ticket = parseFloat(ticketInput.value);
+      const retentionPct = parseFloat(retentionInput.value);
+      const commPct = parseFloat(commInput.value);
+
+      clientsVal.textContent = `${clients} ${clients === 1 ? 'cliente' : 'clientes'}`;
+      ticketVal.textContent = fmt.format(ticket);
+      retentionVal.textContent = `${retentionPct}%`;
+      commVal.textContent = `${commPct}%`;
+
+      const grossRev = clients * ticket;
+      const reserve = grossRev * (retentionPct / 100);
+      const commission = grossRev * (commPct / 100);
+      const distributable = grossRev - reserve - commission;
+      const perPartner = distributable / 4;
+
+      grossRevRes.textContent = fmt.format(grossRev);
+      reserveRes.textContent = fmt.format(reserve);
+      commRes.textContent = fmt.format(commission);
+      distributableRes.textContent = fmt.format(distributable);
+      perPartnerRes.textContent = fmt.format(perPartner);
+    }
+
+    clientsInput.addEventListener('input', updateSimulator);
+    ticketInput.addEventListener('input', updateSimulator);
+    retentionInput.addEventListener('input', updateSimulator);
+    commInput.addEventListener('input', updateSimulator);
+
+    updateSimulator();
+  </script>
 </body>
 </html>
