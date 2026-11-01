@@ -86,6 +86,12 @@
       gap: 10px;
     }
 
+    h3 {
+      font-size: 1.1rem;
+      color: var(--text-primary);
+      margin: 20px 0 10px 0;
+    }
+
     ul, ol {
       padding-left: 20px;
       margin-bottom: 16px;
@@ -112,6 +118,35 @@
 
     .callout strong {
       color: var(--accent-hover);
+    }
+
+    .expenses-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .expense-card {
+      background: rgba(15, 23, 42, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 16px;
+    }
+
+    .expense-card h4 {
+      font-size: 0.95rem;
+      color: var(--accent-hover);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .expense-card p {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
     }
 
     .table-container {
@@ -301,18 +336,47 @@
 
       <!-- SECTION 2 -->
       <section>
-        <h2>2. Modelo Financeiro Inicial & Reinvestimento</h2>
+        <h2>2. Modelo Financeiro Inicial & Reinvestimento no Caixa</h2>
         <ul>
-          <li><strong>Equipamentos:</strong> Inicialmente usaremos a estrutura e equipamentos individuais de cada um.</li>
-          <li><strong>Fundo de Reserva e Crescimento da Empresa:</strong> Antes da distribuição de lucros/remunerações, <strong>uma porcentagem fixa do faturamento de cada projeto será retida para a empresa</strong>. Esse caixa será usado exclusivamente para:
-            <ol style="margin-top: 8px; margin-left: 20px;">
-              <li>Assinatura de softwares, ferramentas e plataformas de trabalho.</li>
-              <li>Marketing e tráfego pago da própria Éter (captar nossos clientes).</li>
-              <li>Aquisição de novos equipamentos e melhoria da infraestrutura do time.</li>
-            </ol>
-          </li>
-          <li><strong>Divisão de Lucros/Remuneração:</strong> Traremos os números para a mesa na reunião para batermos o martelo sobre a porcentagem exata de retenção e as faixas de comissionamento/repartição.</li>
+          <li><strong>Equipamentos Iniciais:</strong> Começaremos operando com os equipamentos e estruturas individuais de cada sócio.</li>
+          <li><strong>Princípio de Crescimento & Escalonamento de Custos:</strong> Conforme a produtora ganha maturidade e o faturamento aumenta, os custos operacionais também sobem. Para não comprometer a saúde financeira da empresa nem os saques dos sócios no futuro, **reteremos uma porcentagem do faturamento** para o caixa da Éter.</li>
         </ul>
+
+        <h3>Justificativa de Custos e Investimentos Essenciais</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 16px;">
+          O dinheiro retido pela empresa atende a demandas práticas de operação, segurança e aquisição de novos contratos:
+        </p>
+
+        <div class="expenses-grid">
+          <div class="expense-card">
+            <h4>💾 Armazenamento e Segurança</h4>
+            <p>Aquisição de SSDs NVMe externos de alta velocidade para fluxo de edição e HDDs/NAS para acervo bruto e redundância de backup dos materiais de clientes.</p>
+          </div>
+
+          <div class="expense-card">
+            <h4>💻 Assinaturas e Licenças</h4>
+            <p>PAGAMENTO do pacote <strong>Adobe Creative Cloud</strong> (compartilhável estrategicamente no início e com upgrade planejado conforme o time cresce), bancos de áudio/trilhas (Artlist) e ferramentas de gestão.</p>
+          </div>
+
+          <div class="expense-card">
+            <h4>📢 Marketing Próprio e Tráfego</h4>
+            <p>A Éter precisa ser seu próprio cliente. Investimento em tráfego pago (Meta Ads/Google Ads) para manter a esteira de prospecção do Eliab e Ítalo sempre ativa.</p>
+          </div>
+
+          <div class="expense-card">
+            <h4>🏢 Espaço Físico e Coworking</h4>
+            <p>Fundo para diárias de salas de reunião para fechamento de contratos de ticket alto e, no médio prazo, estruturação de um espaço/estúdio fixo para o time.</p>
+          </div>
+
+          <div class="expense-card">
+            <h4>⚡ Manutenção e Contingência</h4>
+            <p>Reserva rápida para troca de cabos, baterias extras, cartões de memória e imprevistos técnicos sem tirar dinheiro do bolso dos sócios.</p>
+          </div>
+        </div>
+
+        <div class="callout" style="margin-top: 20px;">
+          <strong>📌 Ponto para Discussão na Reunião:</strong> A porcentagem exata de retenção será debatida entre todos para encontrarmos um equilíbrio saudável entre o pró-labore do time e o ritmo de crescimento da produtora.
+        </div>
       </section>
 
       <!-- SIMULATOR SECTION -->
@@ -423,7 +487,7 @@
           </table>
         </div>
 
-        <h3 style="font-size: 1.1rem; color: var(--text-primary); margin: 20px 0 10px 0;">Formatos de Contratualização</h3>
+        <h3>Formatos de Contratualização</h3>
         <ul>
           <li><strong>Retainer Fixo Mensal:</strong> Contratos de 6 a 12 meses com permanência mínima (3 a 6 meses) para estabilizar o caixa.</li>
           <li><strong>Combo Estratégico (Redes + Tráfego + Web):</strong> Entregar a solução ponta a ponta para aumentar o valor percebido e elevar o ticket médio acima de R$ 4.000/mês.</li>
@@ -449,11 +513,11 @@
         <ul class="checklist">
           <li>
             <input type="checkbox" id="item1">
-            <label for="item1">Definir a % exata do faturamento que fica para a empresa (Fundo de Crescimento Éter).</label>
+            <label for="item1">Debater e definir a % de retenção para o fundo de crescimento e custos operacionais da Éter.</label>
           </li>
           <li>
             <input type="checkbox" id="item2">
-            <label for="item2">Definir a % de comissão/bonificação para quem fechar novos clientes.</label>
+            <label for="item2">Definir a % de comissão/bonificação comercial para quem fechar novos clientes.</label>
           </li>
           <li>
             <input type="checkbox" id="item3">
@@ -465,14 +529,14 @@
           </li>
           <li>
             <input type="checkbox" id="item5">
-            <label for="item5">Estruturar os primeiros anúncios e abordagens de prospecção da Éter.</label>
+            <label for="item5">Estruturar a compra inicial de armazenamento (SSDs) e licença Adobe para o fluxo de trabalho.</label>
           </li>
         </ul>
       </section>
     </main>
 
     <footer>
-      Éter Creative Experience &copy; 2026 — Documento de Uso Interno
+      Éter Creative Experience © 2026 — Documento de Uso Interno
     </footer>
   </div>
 
