@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Pool — Éter Creative</title>
+  <style>
+    :root {
+      --bg-color: #10100f;
+      --card-bg: rgba(28, 27, 24, 0.78);
+      --border-color: rgba(229, 217, 193, 0.16);
+      --text-primary: #f4efe6;
+      --text-secondary: #aaa295;
+      --accent: #d6a86a;
+      --accent-hover: #f0c98e;
+      --callout-bg: rgba(214, 168, 106, 0.08);
+      --callout-border: #c28e4c;
+      --success: #9fc5a3;
+      --warning: #e4b575;
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at 8% 2%, rgba(181, 128, 62, 0.12), transparent 28rem),
+        radial-gradient(circle at 92% 18%, rgba(94, 103, 95, 0.1), transparent 30rem),
+        linear-gradient(135deg, #0b0b0a 0%, var(--bg-color) 45%, #171511 100%);
+      color: var(--text-primary);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 72px 24px;
+      position: relative;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      pointer-events: none;
+      position: fixed;
+      z-index: 0;
+    }
+
+    body::before {
+      border: 1px solid rgba(244, 239, 230, 0.08);
+      inset: 18px;
+    }
+
+    body::after {
+      background: linear-gradient(90deg, transparent, rgba(244, 239, 230, 0.035), transparent);
+      height: 1px;
+      left: 0;
+      right: 0;
+      top: 50%;
+    }
+
+    .container {
+      margin: 0 auto;
+      max-width: 1180px;
+      position: relative;
+      z-index: 1;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 32px;
+      padding: 24px 0 32px;
+      position: relative;
+    }
+
+    header::after {
+      background: var(--accent);
+      bottom: -1px;
+      content: "";
+      height: 2px;
+      left: 0;
+      position: absolute;
+      width: 72px;
+    }
+
+    .back-link,
+    .badge {
+      color: var(--accent-hover);
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 22px;
+    }
+
+    .back-link:hover {
+      color: var(--text-primary);
+    }
+
+    .badge {
+      background: var(--callout-bg);
+      border: 1px solid rgba(214, 168, 106, 0.35);
+      border-radius: 2px;
+      display: inline-block;
+      margin-bottom: 16px;
+      padding: 6px 12px;
+    }
+
+    h1 {
+      color: var(--text-primary);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      font-weight: 400;
+      letter-spacing: -0.045em;
+      line-height: 1.05;
+      margin-bottom: 14px;
+    }
+
+    .subtitle {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      max-width: 700px;
+    }
+
+    .calculator-grid {
+      display: grid;
+      gap: 22px;
+      grid-template-columns: minmax(0, 1.65fr) minmax(300px, 0.9fr);
+    }
+
+    section,
+    .results-card,
+    .partners-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 3px;
+      box-shadow: var(--shadow);
+      padding: 26px;
+      position: relative;
+    }
+
+    section::before,
+    .results-card::before,
+    .partners-card::before {
+      color: rgba(240, 201, 142, 0.55);
+      content: "✦";
+      font-size: 0.8rem;
+      position: absolute;
+      right: 20px;
+      top: 20px;
+    }
+
+    section + section {
+      margin-top: 22px;
+    }
+
+    h2,
+    h3 {
+      color: var(--text-primary);
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 400;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+
+    h3 {
+      font-size: 1rem;
+      letter-spacing: 0.12em;
+      margin-bottom: 18px;
+      text-transform: uppercase;
+    }
+
+    .input-grid {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    label {
+      color: var(--text-secondary);
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      margin-bottom: 7px;
+    }
+
+    input,
+    select {
+      background: rgba(10, 10, 9, 0.62);
+      border: 1px solid var(--border-color);
+      border-radius: 2px;
+      color: var(--text-primary);
+      font: inherit;
+      padding: 12px 14px;
+      width: 100%;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--accent);
+      outline: 2px solid rgba(214, 168, 106, 0.18);
+      outline-offset: 1px;
+    }
+
+    select {
+      appearance: none;
+      background-image: linear-gradient(45deg, transparent 50%, var(--accent-hover) 50%), linear-gradient(135deg, var(--accent-hover) 50%, transparent 50%);
+      background-position: calc(100% - 18px) 50%, calc(100% - 12px) 50%;
+      background-repeat: no-repeat;
+      background-size: 6px 6px, 6px 6px;
+    }
+
+    .section-heading {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .section-heading h2 {
+      margin-bottom: 0;
+    }
+
+    .points-badge,
+    .weight-badge {
+      background: var(--callout-bg);
+      border: 1px solid rgba(214, 168, 106, 0.28);
+      border-radius: 2px;
+      color: var(--accent-hover);
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 4px 8px;
+      white-space: nowrap;
+    }
+
+    .tasks-grid {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .task-card {
+      background: rgba(10, 10, 9, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 2px;
+      padding: 16px;
+      transition: border-color 180ms ease, background-color 180ms ease;
+    }
+
+    .task-card:has(input:checked) {
+      background: rgba(214, 168, 106, 0.08);
+      border-color: rgba(214, 168, 106, 0.4);
+    }
+
+    .task-card-header {
+      align-items: flex-start;
+      display: flex;
+      gap: 10px;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .task-name {
+      color: var(--text-primary);
+      font-size: 0.88rem;
+      font-weight: 600;
+      line-height: 1.35;
+    }
+
+    .people-grid {
+      display: grid;
+      gap: 10px 8px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .person-option {
+      align-items: center;
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: flex;
+      font-size: 0.8rem;
+      gap: 8px;
+      margin-bottom: 0;
+    }
+
+    .person-option input {
+      accent-color: var(--accent);
+      height: 16px;
+      padding: 0;
+      width: 16px;
+    }
+
+    .sidebar {
+      align-self: start;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      position: sticky;
+      top: 24px;
+    }
+
+    .summary-total {
+      border-bottom: 1px solid var(--border-color);
+      margin: -26px -26px 20px;
+      padding: 22px 26px;
+    }
+
+    .eyebrow {
+      color: var(--text-secondary);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    .revenue-display {
+      color: var(--text-primary);
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+    }
+
+    .metric {
+      align-items: center;
+      display: flex;
+      gap: 12px;
+      justify-content: space-between;
+      padding: 11px 0;
+    }
+
+    .metric + .metric {
+      border-top: 1px dashed var(--border-color);
+    }
+
+    .metric-label {
+      align-items: center;
+      color: var(--text-secondary);
+      display: flex;
+      font-size: 0.86rem;
+      gap: 8px;
+    }
+
+    .metric-label::before {
+      background: var(--accent);
+      border-radius: 50%;
+      content: "";
+      flex: 0 0 7px;
+      height: 7px;
+    }
+
+    .metric:nth-child(2) .metric-label::before {
+      background: var(--success);
+    }
+
+    .metric:nth-child(3) .metric-label::before {
+      background: var(--warning);
+    }
+
+    .metric-value {
+      color: var(--text-primary);
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-align: right;
+    }
+
+    .pool-metric {
+      border-top: 1px solid var(--border-color);
+      margin-top: 8px;
+      padding-top: 18px;
+    }
+
+    .pool-metric .metric-label {
+      color: var(--accent-hover);
+      font-weight: 700;
+    }
+
+    .pool-metric .metric-value {
+      color: var(--accent-hover);
+      font-size: 1.2rem;
+    }
+
+    .point-value {
+      color: var(--text-secondary);
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 400;
+      margin-top: 3px;
+    }
+
+    .partner-row {
+      align-items: center;
+      background: rgba(10, 10, 9, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 2px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 14px;
+    }
+
+    .partner-row + .partner-row {
+      margin-top: 10px;
+    }
+
+    .partner-name {
+      color: var(--text-primary);
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .partner-total {
+      color: var(--text-primary);
+      font-size: 1.05rem;
+      font-weight: 700;
+      text-align: right;
+    }
+
+    .partner-breakdown {
+      color: var(--text-secondary);
+      display: block;
+      font-size: 0.68rem;
+      margin-top: 2px;
+      text-align: right;
+    }
+
+    footer {
+      border-top: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      margin-top: 36px;
+      padding-top: 20px;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 900px) {
+      .calculator-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+      }
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 42px 14px;
+      }
+
+      body::before {
+        inset: 8px;
+      }
+
+      .input-grid,
+      .tasks-grid {
+        grid-template-columns: 1fr;
+      }
+
+      section,
+      .results-card,
+      .partners-card {
+        padding: 22px 18px;
+      }
+
+      .summary-total {
+        margin: -22px -18px 20px;
+        padding: 20px 18px;
+      }
+
+      .section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <a class="back-link" href="index.html">← Voltar para a proposta</a>
+      <span class="badge">Ferramenta Operacional</span>
+      <h1>Calculadora de Pool de Execução</h1>
+      <p class="subtitle">Simulador para fatiamento da receita por projeto com base no peso das tarefas operacionais realizadas.</p>
+    </header>
+
+    <main class="calculator-grid">
+      <div>
+        <section>
+          <h2>Dados do Projeto</h2>
+          <div class="input-grid">
+            <div>
+              <label for="revenue">Faturamento Bruto (R$)</label>
+              <input type="number" id="revenue" min="0" step="0.01" value="4500" placeholder="Ex.: 4500">
+            </div>
+            <div>
+              <label for="salesperson">Comercial (quem fechou?)</label>
+              <select id="salesperson">
+                <option value="Ninguém">Ninguém (cliente inbound)</option>
+                <option value="Ulysses">Ulysses</option>
+                <option value="Pedro">Pedro</option>
+                <option value="Eliab" selected>Eliab</option>
+                <option value="Ítalo">Ítalo</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div class="section-heading">
+            <h2>Mapeamento de Esforço</h2>
+            <span class="points-badge" id="total-points-badge">0 pontos ativos</span>
+          </div>
+          <div class="tasks-grid" id="tasks-container"></div>
+        </section>
+      </div>
+
+      <aside class="sidebar">
+        <div class="results-card">
+          <div class="summary-total">
+            <div class="eyebrow">Resumo da divisão</div>
+            <div class="revenue-display" id="display-revenue">R$ 0,00</div>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Fundo Éter (10%)</span>
+            <span class="metric-value" id="res-fundo">R$ 0,00</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Comissão de venda</span>
+            <span class="metric-value" id="res-comm">R$ 0,00</span>
+          </div>
+          <div class="metric pool-metric">
+            <span class="metric-label">
+              <span>Pool de execução<span class="point-value" id="res-point-value">Nenhuma tarefa ativa</span></span>
+            </span>
+            <span class="metric-value" id="res-pool">R$ 0,00</span>
+          </div>
+        </div>
+
+        <div class="partners-card">
+          <h3>Recebimento final por sócio</h3>
+          <div id="partners-container"></div>
+        </div>
+      </aside>
+    </main>
+
+    <footer>Éter Creative Experience © 2026 — Documento de Uso Interno</footer>
+  </div>
+
+  <script>
+    const tasks = [
+      { id: 't1', name: 'Captação de Vídeo Externa', weight: 9 },
+      { id: 't2', name: 'Edição de Vídeo Hero', weight: 8 },
+      { id: 't3', name: 'Identidade Visual / Branding', weight: 8 },
+      { id: 't4', name: 'Landing Page do Zero', weight: 8 },
+      { id: 't5', name: 'Gestão de Tráfego Pago', weight: 7 },
+      { id: 't6', name: 'Captação de Fotografia', weight: 6 },
+      { id: 't7', name: 'Cobertura / Storymaker', weight: 5 },
+      { id: 't8', name: 'Roteirização / Oferta', weight: 5 },
+      { id: 't9', name: 'Copywriting', weight: 5 },
+      { id: 't10', name: 'UI Design', weight: 5 },
+      { id: 't11', name: 'Edição Nutella (Reels/Shorts)', weight: 4 },
+      { id: 't12', name: 'Design para Redes Sociais', weight: 3 },
+      { id: 't13', name: 'Manutenção Mensal de Site', weight: 3 }
+    ];
+
+    const partners = ['Ulysses', 'Pedro', 'Eliab', 'Ítalo'];
+    const fmt = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+
+    function renderTasks() {
+      const container = document.getElementById('tasks-container');
+      container.innerHTML = tasks.map(task => `
+        <article class="task-card">
+          <div class="task-card-header">
+            <h4 class="task-name">${task.name}</h4>
+            <span class="weight-badge">Peso ${task.weight}</span>
+          </div>
+          <div class="people-grid">
+            ${partners.map(person => `
+              <label class="person-option">
+                <input type="checkbox" class="task-checkbox" data-task="${task.id}" data-person="${person}">
+                <span>${person}</span>
+              </label>
+            `).join('')}
+          </div>
+        </article>
+      `).join('');
+    }
+
+    function renderPartners() {
+      document.getElementById('partners-container').innerHTML = partners.map(person => `
+        <div class="partner-row">
+          <span class="partner-name">${person}</span>
+          <div>
+            <span class="partner-total" id="total-${person}">R$ 0,00</span>
+            <span class="partner-breakdown" id="breakdown-${person}">Sem ganhos</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function calculate() {
+      const revenue = Math.max(0, Number.parseFloat(document.getElementById('revenue').value) || 0);
+      const salesperson = document.getElementById('salesperson').value;
+      const fundoEter = revenue * 0.10;
+      const commission = salesperson === 'Ninguém' ? 0 : revenue * 0.10;
+      const poolExecution = revenue - fundoEter - commission;
+      const earnings = Object.fromEntries(partners.map(person => [person, 0]));
+      const breakdowns = Object.fromEntries(partners.map(person => [person, { commission: 0, execution: 0 }]));
+      let totalPoints = 0;
+      const activeTasks = [];
+
+      tasks.forEach(task => {
+        const selectedPeople = [...document.querySelectorAll(`.task-checkbox[data-task="${task.id}"]:checked`)]
+          .map(checkbox => checkbox.dataset.person);
+
+        if (selectedPeople.length > 0) {
+          totalPoints += task.weight;
+          activeTasks.push({ task, people: selectedPeople });
+        }
+      });
+
+      const pointValue = totalPoints > 0 ? poolExecution / totalPoints : 0;
+
+      if (salesperson !== 'Ninguém') {
+        earnings[salesperson] += commission;
+        breakdowns[salesperson].commission = commission;
+      }
+
+      activeTasks.forEach(({ task, people }) => {
+        const splitMoney = (task.weight * pointValue) / people.length;
+        people.forEach(person => {
+          earnings[person] += splitMoney;
+          breakdowns[person].execution += splitMoney;
+        });
+      });
+
+      document.getElementById('display-revenue').textContent = fmt.format(revenue);
+      document.getElementById('res-fundo').textContent = fmt.format(fundoEter);
+      document.getElementById('res-comm').textContent = fmt.format(commission);
+      document.getElementById('res-pool').textContent = fmt.format(poolExecution);
+      document.getElementById('total-points-badge').textContent = `${totalPoints} pontos ativos`;
+      document.getElementById('res-point-value').textContent = totalPoints > 0
+        ? `1 ponto = ${fmt.format(pointValue)}`
+        : 'Nenhuma tarefa ativa';
+
+      partners.forEach(person => {
+        const breakdown = breakdowns[person];
+        const parts = [];
+
+        if (breakdown.commission > 0) parts.push(`Venda: ${fmt.format(breakdown.commission)}`);
+        if (breakdown.execution > 0) parts.push(`Exec.: ${fmt.format(breakdown.execution)}`);
+
+        document.getElementById(`total-${person}`).textContent = fmt.format(earnings[person]);
+        document.getElementById(`breakdown-${person}`).textContent = parts.length > 0 ? parts.join(' | ') : 'Sem ganhos';
+      });
+    }
+
+    renderTasks();
+    renderPartners();
+    calculate();
+
+    document.getElementById('revenue').addEventListener('input', calculate);
+    document.getElementById('salesperson').addEventListener('change', calculate);
+    document.querySelectorAll('.task-checkbox').forEach(checkbox => {
+      checkbox.addEventListener('change', calculate);
+    });
+  </script>
+</body>
+</html>

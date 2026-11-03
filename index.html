@@ -118,6 +118,20 @@
       max-width: 620px;
     }
 
+    .page-link {
+      display: inline-block;
+      margin-top: 18px;
+      color: var(--accent-hover);
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .page-link:hover {
+      color: var(--text-primary);
+    }
+
     section {
       background-color: var(--card-bg);
       border: 1px solid var(--border-color);
@@ -191,14 +205,14 @@
       color: var(--accent-hover);
     }
 
-    .expenses-grid {
+    .expenses-grid, .weights-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 16px;
       margin-top: 16px;
     }
 
-    .expense-card {
+    .expense-card, .weight-card {
       background: rgba(10, 10, 9, 0.5);
       border: 1px solid var(--border-color);
       border-radius: 2px;
@@ -206,7 +220,7 @@
       transition: background-color 180ms ease, border-color 180ms ease;
     }
 
-    .expense-card:hover {
+    .expense-card:hover, .weight-card:hover {
       background: rgba(214, 168, 106, 0.08);
       border-color: rgba(214, 168, 106, 0.28);
     }
@@ -224,6 +238,54 @@
       font-size: 0.88rem;
       color: var(--text-secondary);
       line-height: 1.5;
+    }
+
+    .weight-card h4 {
+      font-size: 0.86rem;
+      color: var(--accent-hover);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .weight-card ul {
+      list-style: none;
+      padding-left: 0;
+      margin-bottom: 0;
+    }
+
+    .weight-card li {
+      border-bottom: 1px solid rgba(244, 239, 230, 0.08);
+      font-size: 0.9rem;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+    }
+
+    .weight-card li:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .weight-card p {
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      line-height: 1.5;
+      margin-top: 4px;
+    }
+
+    .weight-badge {
+      background: var(--callout-bg);
+      border: 1px solid rgba(214, 168, 106, 0.28);
+      border-radius: 2px;
+      color: var(--accent-hover);
+      font-size: 0.72rem;
+      font-weight: 700;
+      margin-left: 8px;
+      padding: 2px 7px;
+      vertical-align: middle;
+      white-space: nowrap;
     }
 
     .table-container {
@@ -374,6 +436,9 @@
       .simulator-grid {
         grid-template-columns: 1fr;
       }
+      .weights-grid {
+        grid-template-columns: 1fr;
+      }
       body {
         padding: 42px 14px;
       }
@@ -397,6 +462,7 @@
       <span class="badge">Planejamento Estratégico</span>
       <h1>Éter Creative Experience</h1>
       <p class="subtitle">Proposta de Alinhamento Operacional, Modelo Financeiro e Estrutura Comercial</p>
+      <a class="page-link" href="calculadora-pool.html">Abrir calculadora do pool de execução →</a>
     </header>
 
     <main>
@@ -465,9 +531,71 @@
         </div>
       </section>
 
-      <!-- SIMULATOR SECTION -->
+      <!-- SECTION 3: DISTRIBUIÇÃO E PESOS -->
       <section>
-        <h2>🧮 Simulador Operacional de Receita e Caixa</h2>
+        <h2>3. Distribuição de Lucros e Pesos Operacionais</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 16px;">
+          Para garantir uma divisão justa do dinheiro, o faturamento de cada projeto obedece à seguinte regra de fatiamento:
+        </p>
+
+        <ul>
+          <li><strong>10% — Fundo Éter:</strong> Caixa da empresa, reinvestimento e custos operacionais fixos.</li>
+          <li><strong>10% — Comissão de Venda:</strong> Direcionado a quem prospectou e fechou o cliente.</li>
+          <li><strong>80% — Pool de Execução:</strong> O valor restante é fatiado <strong>proporcionalmente às tarefas realizadas</strong>, usando o sistema de pesos abaixo.</li>
+        </ul>
+
+        <h3>Sistema de Mapeamento de Esforço (Escala 1 a 10)</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 16px;">
+          Os nomes dos executores não importam na precificação; o valor acompanha a tarefa executada baseando-se na complexidade técnica e tempo exigido.
+        </p>
+
+        <div class="weights-grid">
+          <div class="weight-card">
+            <h4>🎥 Audiovisual e Captação</h4>
+            <ul>
+              <li><strong>Captação de Vídeo Externa <span class="weight-badge">Peso 9</span></strong><p>Deslocamento, esforço físico prolongado, controle de luz/áudio no set e uso de maquinário pesado.</p></li>
+              <li><strong>Edição de Vídeo Hero <span class="weight-badge">Peso 8</span></strong><p>Montagem narrativa complexa, decupagem extensa, Color Grading avançado e mixagem de áudio.</p></li>
+              <li><strong>Captação de Fotografia <span class="weight-badge">Peso 6</span></strong><p>Uso de equipamento de alto valor e deslocamento. Setups ligeiramente mais ágeis que os de vídeo.</p></li>
+              <li><strong>Cobertura / Storymaker <span class="weight-badge">Peso 5</span></strong><p>Captação ágil in-loco (geralmente smartphone/câmera leve) e edição rápida para tempo real.</p></li>
+              <li><strong>Edição Nutella (Reels/Shorts) <span class="weight-badge">Peso 4</span></strong><p>Cortes secos, legendas dinâmicas, edição voltada à retenção em alto volume.</p></li>
+            </ul>
+          </div>
+
+          <div class="weight-card">
+            <h4>💻 Desenvolvimento Web</h4>
+            <ul>
+              <li><strong>Landing Page do Zero <span class="weight-badge">Peso 8</span></strong><p>Estruturação completa, integrações (pixels, formulários) e garantia de responsividade fluida.</p></li>
+              <li><strong>Manutenção Mensal <span class="weight-badge">Peso 3</span></strong><p>Trabalho de sustentação, troca de banners e atualização de plugins e links. Intervenções rápidas.</p></li>
+            </ul>
+          </div>
+
+          <div class="weight-card">
+            <h4>📈 Estratégia e Tráfego</h4>
+            <ul>
+              <li><strong>Gestão de Tráfego Pago <span class="weight-badge">Peso 7</span></strong><p>Monitoramento contínuo, testes A/B, otimização de verba em Ads e emissão de relatórios.</p></li>
+              <li><strong>Roteirização / Oferta <span class="weight-badge">Peso 5</span></strong><p>Pesquisa de mercado, estruturação de ganchos (hooks) e desenho da narrativa de vendas.</p></li>
+              <li><strong>Copywriting (Páginas/Ads) <span class="weight-badge">Peso 5</span></strong><p>Escrita persuasiva focada em conversão e gatilhos mentais para sustentar o clique.</p></li>
+            </ul>
+          </div>
+
+          <div class="weight-card">
+            <h4>🎨 Design e Direção de Arte</h4>
+            <ul>
+              <li><strong>Identidade Visual / Branding <span class="weight-badge">Peso 8</span></strong><p>Trabalho conceitual e denso. Logotipo, paleta, tipografia e elaboração de manual de marca.</p></li>
+              <li><strong>UI Design (Interface de Site) <span class="weight-badge">Peso 5</span></strong><p>Desenho e prototipação das telas no Figma antes da codificação.</p></li>
+              <li><strong>Design para Redes Sociais <span class="weight-badge">Peso 3</span></strong><p>Produção ágil de artes estáticas e carrosséis a partir de uma identidade já consolidada.</p></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="callout" style="margin-top: 16px;">
+          <strong>🧮 Como Funciona a Matemática:</strong> A soma dos pesos das tarefas contratadas forma 100% do Pool de Execução. Se o projeto demandou Captação de Vídeo (9), Edição (8) e Tráfego (7), o projeto tem 24 pontos. Quem executou a captação leva a proporção de 9/24 desse pool, e assim por diante.
+        </div>
+      </section>
+
+      <!-- SECTION 4: SIMULATOR -->
+      <section>
+        <h2>4. Simulador Operacional de Receita e Caixa</h2>
         <p style="color: var(--text-secondary); margin-bottom: 16px;">
           Ajuste as variáveis abaixo para simular diferentes cenários de contratos ativos, retenção para o fundo da empresa e repasse para os 4 sócios em tempo real:
         </p>
@@ -532,9 +660,9 @@
         </div>
       </section>
 
-      <!-- SECTION 3 -->
+      <!-- SECTION 5 -->
       <section>
-        <h2>3. Modelo de Negócio, Precificação e Recorrência</h2>
+        <h2>5. Modelo de Negócio, Precificação e Recorrência</h2>
         <p style="color: var(--text-secondary); margin-bottom: 16px;">
           Nosso foco comercial será a venda de <strong>Contratos Recorrentes (Fee Mensal)</strong> unindo Audiovisual + Tráfego + Web/Landing Pages, fugindo do modelo de "trabalho pontual / gato pingado".
         </p>
@@ -581,9 +709,9 @@
         </ul>
       </section>
 
-      <!-- SECTION 4 -->
+      <!-- SECTION 6 -->
       <section>
-        <h2>4. Meta Operacional da Éter</h2>
+        <h2>6. Meta Operacional da Éter</h2>
         <p style="color: var(--text-secondary); margin-bottom: 12px;">
           Para manter a estrutura de 4 sócios bem remunerados, com caixa saudável e sem sobrecarregar a rotina de produção:
         </p>
@@ -593,7 +721,7 @@
         </ul>
       </section>
 
-      <!-- SECTION 5 -->
+      <!-- SECTION 7 -->
       <section>
         <h2>📌 Pauta Prioritária para a Reunião</h2>
         <ul class="checklist">
